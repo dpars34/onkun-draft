@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+typedef StringCallback = void Function(String val);
+
 class SearchBar extends StatefulWidget {
-  const SearchBar({Key? key}) : super(key: key);
+  const SearchBar({Key? key, required this.onSubmittedCallback}) : super(key: key);
+
+  final StringCallback onSubmittedCallback;
 
   @override
   State<SearchBar> createState() => _SearchBarState();
@@ -14,6 +18,10 @@ class _SearchBarState extends State<SearchBar> {
       child: Padding(
         padding: EdgeInsets.all(8.0),
         child: TextField(
+          textInputAction: TextInputAction.search,
+          onSubmitted: (val) {
+            widget.onSubmittedCallback(val);
+          },
           decoration: InputDecoration(
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(100.0),
@@ -29,6 +37,7 @@ class _SearchBarState extends State<SearchBar> {
                     width: 1
                 )
             ),
+            prefixIcon: Icon(Icons.search)
           ),
         ),
       )
